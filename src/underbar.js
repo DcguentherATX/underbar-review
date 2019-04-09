@@ -182,7 +182,33 @@
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
+  // iteratee(memo, value, index/key, list)
   _.reduce = function(collection, iterator, accumulator) {
+
+     if (accumulator === undefined) {
+      var memo = collection[0];
+      for (var i = 1; i < collection.length; i++) {
+        memo = iterator(memo, collection[i]);
+      }
+      return memo;
+
+     } else {
+       var memo = accumulator
+       for (var i = 0; i < collection.length; i++) {
+        memo = iterator(memo, collection[i]);
+      }
+      return memo;
+
+     }
+
+
+  //   accumulator = accumulator || collection[0];
+
+  //   return _.map(collection, function(accumulator, item){
+  //     return iterator(accumulator, item)
+
+  //   });
+
   };
 
   // Determine if the array or object contains a given value (using `===`).
