@@ -81,21 +81,64 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    var result = [];
+
+    for (var i = 0; i < collection.length; i++) {
+      if (test(collection[i]) === true) {
+        result.push(collection[i]);
+      }
+    }
+    return result;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
+    var result = [];
+    
+    for (var i = 0; i < collection.length; i++) {
+      if (test(collection[i]) === false) {
+        result.push(collection[i]);
+      }
+    }
+    return result;
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    var result = [];
+    var sortArr = [];
+
+    if(isSorted){
+      for(var i = 0; i < array.length; i++) {
+        var iterated = iterator(array[i])
+        if(!sortArr.includes(iterated)){
+          sortArr.push(iterated)
+          result.push(array[i])
+        }
+      }
+    } else {
+      for(var i = 0; i < array.length; i++){
+        if(!result.includes(array[i])){
+          result.push(array[i]);
+        }
+      }
+
+    }
+
+    return result;
   };
 
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
+    var result = [];
+
+    _.each(collection, function(item, index, collection) {
+      result.push(iterator(item, index, collection))
+    });
+    return result;
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
