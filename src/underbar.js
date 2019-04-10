@@ -330,6 +330,21 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var args = [...arguments];
+
+    // if(args[0] === undefined){
+    //   return {};
+    // }
+
+    for(var i = 0; i< args.length; i++){
+      for(var key in args[i]){
+        if(obj[key] === undefined){ 
+          obj[key] = args[i][key];
+          }
+      }
+    }
+
+  return obj;
   };
 
 
@@ -373,6 +388,18 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var hashMap = {};
+  
+    return function (...args) {
+
+    var key = JSON.stringify(arguments);
+      if (hashMap[key] !== undefined) {
+        return hashMap[key];
+       } else {
+        hashMap[key] = func.apply(null, arguments);
+        return hashMap[key];
+      }
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -382,6 +409,11 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var argArray = [...arguments];
+    var args = argArray.slice(2);
+
+    return setTimeout(function () {
+      func.apply(null, args)}, wait);
   };
 
 
